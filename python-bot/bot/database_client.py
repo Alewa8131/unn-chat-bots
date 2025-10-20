@@ -8,7 +8,7 @@ load_dotenv()
 
 
 def recreate_database() -> None:
-    connection = sqlite3.connect(os.getenv('SQLITE_DB_PATH'))
+    connection = sqlite3.connect(os.getenv("SQLITE_DB_PATH"))
     with connection:
         connection.execute("DROP TABLE IF EXISTS telegram_updates")
         connection.execute("""
@@ -17,8 +17,9 @@ def recreate_database() -> None:
                 id INTEGER PRIMARY KEY,
                 payload TEXT NOT NULL
             )
-            """)
+            """,)
     connection.close()
+    print(f"База данных успешно создана по пути: {os.getenv("SQLITE_DB_PATH")}")
 
 
 def persist_updates(updates: dict) -> None:
@@ -26,6 +27,6 @@ def persist_updates(updates: dict) -> None:
     with connection:
         data = []
         for update in updates:
-            data.append((json.dumps(update, ensure_ascii=False),))
-        connection.executemany("INSERT INTO  telegram_updates (payload) VALUES (?)", data)
+            data.append((json.dumps(update, ensure_ascii=False, indent=2),))
+        connection.executemany("INSERT INTO  telegram_updates (payload) VALUES (?)", data,)
     connection.close()

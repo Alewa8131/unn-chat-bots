@@ -5,18 +5,21 @@ import bot.telegram_api_client
 
 
 def main() -> None:
+    next_update_offset = 0
     try:
-        next_update_offset = 0
         while True:
             updates = bot.telegram_api_client.getUpdates(next_update_offset)
             bot.database_client.persist_updates(updates)
             for update in updates:
-                bot.telegram_api_client.sendMessage(
-                    chat_id=update["message"]["chat"]["id"],
-                    text=update["message"]["text"],
-                )
+                try:
+                    bot.telegram_api_client.sendMessage(
+                        chat_id=update["message"]["chat"]["id"],
+                        text=update["message"]["text"],
+                    )
+                    print(".", end="", flush=True)
+                except:
+                    print("X", end="", flush=True)
                 next_update_offset = max(next_update_offset, update["update_id"] + 1)
-                print(".", end="", flush=True)
             time.sleep(1)
     except KeyboardInterrupt:
         print("\nBye!")
