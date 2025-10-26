@@ -1,7 +1,7 @@
 from bot.handler import Handler
 import bot.database_client
 
-class AddToDB(Handler):
+class DatabaseLogger(Handler):
     def can_handle(self, update: dict) -> bool:
         return "message" in update
     
