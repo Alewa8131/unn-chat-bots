@@ -35,3 +35,6 @@ def getUpdates(**params) -> dict:
 
 def sendMessage(chat_id: int, text: str, **params) -> dict:
     return makeRequest("sendMessage", chat_id=chat_id, text=text, **params)
+
+def sendPhoto(chat_id: int, photo: str, **params) -> dict:
+    return makeRequest("sendPhoto", chat_id=chat_id, photo=photo, **params)
