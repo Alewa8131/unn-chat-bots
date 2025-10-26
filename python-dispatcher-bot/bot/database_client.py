@@ -21,6 +21,13 @@ def recreate_database() -> None:
     connection.close()
     print(f"База данных успешно создана по пути: {os.getenv("SQLITE_DB_PATH")}")
 
+def persist_update(update: dict) -> None:
+    data = json.dumps(update, ensure_ascii=False, indent=2)
+    connection = sqlite3.connect(os.getenv("SQLITE_DB_PATH"))
+    with connection:
+        connection.execute("INSERT INTO  telegram_updates (payload) VALUES (?)", (data,))
+    connection.close()
+
 
 def persist_updates(updates: dict) -> None:
     connection = sqlite3.connect(os.getenv("SQLITE_DB_PATH"))
