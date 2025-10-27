@@ -6,10 +6,11 @@ class MessagePhotoEcho(Handler):
         return "message" in update and "photo" in update["message"]
     
     def handle(self, update: dict) -> bool: 
+        caption_text = update["message"].get("caption") 
         bot.telegram_api_client.sendPhoto(
-        chat_id=update["message"]["chat"]["id"],
-        caption=update["message"]["caption"],
-        photo=update["message"]["photo"][-1]["file_id"],
+            chat_id=update["message"]["chat"]["id"],
+            photo=update["message"]["photo"][-1]["file_id"],
+            caption=caption_text, 
         )
 
         return False
