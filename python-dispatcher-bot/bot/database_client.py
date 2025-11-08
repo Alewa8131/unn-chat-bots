@@ -92,3 +92,11 @@ def update_user_state(telegram_id: int, state: str) -> None:
                 "UPDATE users SET state = ? WHERE telegram_id = ?",
                 (state, telegram_id)
             )
+            
+def update_user_order_json(telegram_id: int, order_json: str) -> None:
+    with sqlite3.connect(os.getenv("SQLITE_DB_PATH")) as connection:
+        with connection:
+            connection.execute(
+                "UPDATE users SET order_json = ? WHERE telegram_id = ?",
+                (json.dumps(order_json, ensure_ascii=False, indent=2), telegram_id)
+            )
