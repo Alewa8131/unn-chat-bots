@@ -10,6 +10,10 @@ jobs:
   code-quality:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ./python-dispather-bot
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
