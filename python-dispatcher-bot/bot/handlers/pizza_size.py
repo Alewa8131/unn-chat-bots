@@ -4,18 +4,18 @@ import bot.telegram_api_client
 import bot.database_client
 from bot.handlers.handler import Handler, HandlerStatus
 
+
 class PizzaSizeHandler(Handler):
     def can_handle(self, update: dict, state: str, order_json: dict) -> bool:
         if "callback_query" not in update:
-             return False
-        
+            return False
+
         if state != "WAIT_FOR_PIZZA_SIZE":
-             return False
-        
+            return False
+
         callback_data = update["callback_query"]["data"]
         return callback_data.startswith("size_")
 
-    
     def handle(self, update: dict, state: str, order_json: dict) -> HandlerStatus:
         telegram_id = update["callback_query"]["from"]["id"]
         callback_data = update["callback_query"]["data"]
@@ -29,7 +29,7 @@ class PizzaSizeHandler(Handler):
         pizza_state = size_mapping.get(callback_data)
 
         order_json["pizza_size"] = pizza_state
-        
+
         bot.database_client.update_user_order_json(telegram_id, order_json)
         bot.database_client.update_user_state(telegram_id, "WAIT_FOR_DRINKS")
 
@@ -50,8 +50,14 @@ class PizzaSizeHandler(Handler):
                             {"text": "Pepsi", "callback_data": "drink_pepsi"},
                         ],
                         [
-                            {"text": "Orange Juice", "callback_data": "drink_orange_juice"},
-                            {"text": "Apple Juice", "callback_data": "drink_apple_juice"},
+                            {
+                                "text": "Orange Juice",
+                                "callback_data": "drink_orange_juice",
+                            },
+                            {
+                                "text": "Apple Juice",
+                                "callback_data": "drink_apple_juice",
+                            },
                         ],
                         [
                             {"text": "Water", "callback_data": "drink_water"},

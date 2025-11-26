@@ -47,8 +47,7 @@ class PizzaDrinksHandler(Handler):
         pizza_size = order_json.get("pizza_size", "Unknown")
         drink = order_json.get("drink", "Unknown")
 
-        order_summary = \
-f"""
+        order_summary = f"""
 🍕 <u>Your Order Summary:</u>
 <b>Pizza:</b> {pizza_name}
 <b>Size:</b> {pizza_size}
@@ -66,7 +65,10 @@ f"""
                     "inline_keyboard": [
                         [
                             {"text": "✅ Ok", "callback_data": "order_approve"},
-                            {"text": "🔄 Start again", "callback_data": "order_restart"},
+                            {
+                                "text": "🔄 Start again",
+                                "callback_data": "order_restart",
+                            },
                         ],
                     ],
                 },

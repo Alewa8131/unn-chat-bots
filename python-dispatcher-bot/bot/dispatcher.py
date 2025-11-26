@@ -2,6 +2,7 @@ from bot.handlers.handler import Handler, HandlerStatus
 import bot.database_client
 import json
 
+
 class Dispatcher:
     def __init__(self):
         self._handlers: list[Handler] = []
@@ -33,4 +34,3 @@ class Dispatcher:
                 status = handler.handle(update, user_state, order_json)
                 if status == HandlerStatus.STOP:
                     break
-                

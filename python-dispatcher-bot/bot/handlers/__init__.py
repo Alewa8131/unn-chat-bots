@@ -12,7 +12,6 @@ def get_handlers() -> list[Handler]:
     return [
         DatabaseLogger(),
         EnsureUserExists(),
-
         MessageStart(),
         PizzaSelectionHandler(),
         PizzaSizeHandler(),

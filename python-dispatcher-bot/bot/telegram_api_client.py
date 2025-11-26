@@ -8,19 +8,19 @@ load_dotenv()
 
 
 def makeRequest(method: str, **param) -> dict:
-    json_data = json.dumps(param).encode('utf-8')
+    json_data = json.dumps(param).encode("utf-8")
 
     request = urllib.request.Request(
-        method='POST',
+        method="POST",
         url=f"{os.getenv("TELEGRAM_BASE_URL")}/{method}",
         data=json_data,
         headers={
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
     )
 
     with urllib.request.urlopen(request) as response:
-        response_body = response.read().decode('utf-8')
+        response_body = response.read().decode("utf-8")
         response_json = json.loads(response_body)
         assert response_json["ok"] == True
         return response_json["result"]
@@ -29,6 +29,7 @@ def makeRequest(method: str, **param) -> dict:
 def getMe() -> dict:
     return makeRequest("getMe")
 
+
 def getUpdates(**params) -> dict:
     return makeRequest("getUpdates", **params)
 
@@ -36,11 +37,16 @@ def getUpdates(**params) -> dict:
 def sendMessage(chat_id: int, text: str, **params) -> dict:
     return makeRequest("sendMessage", chat_id=chat_id, text=text, **params)
 
+
 def sendPhoto(chat_id: int, photo: str, **params) -> dict:
     return makeRequest("sendPhoto", chat_id=chat_id, photo=photo, **params)
+
 
 def deleteMessage(chat_id: int, message_id: int) -> dict:
     return makeRequest("deleteMessage", chat_id=chat_id, message_id=message_id)
 
+
 def answerCallbackQuery(callback_query_id: str, **params) -> dict:
-    return makeRequest("answerCallbackQuery", callback_query_id=callback_query_id, **params)
+    return makeRequest(
+        "answerCallbackQuery", callback_query_id=callback_query_id, **params
+    )

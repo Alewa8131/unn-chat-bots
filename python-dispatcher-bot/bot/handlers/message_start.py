@@ -4,6 +4,7 @@ import bot.telegram_api_client
 import bot.database_client
 from bot.handlers.handler import Handler, HandlerStatus
 
+
 class MessageStart(Handler):
     def can_handle(self, update: dict, state: str, order_json: dict) -> bool:
         return (
@@ -11,7 +12,7 @@ class MessageStart(Handler):
             and "text" in update["message"]
             and update["message"]["text"] == "/start"
         )
-    
+
     def handle(self, update: dict, state: str, order_json: dict) -> HandlerStatus:
         telegram_id = update["message"]["from"]["id"]
 
@@ -37,11 +38,11 @@ class MessageStart(Handler):
                         [
                             {
                                 "text": "Quattro Stagioni",
-                                "callback_data": "pizza_quattro_stagioni"
+                                "callback_data": "pizza_quattro_stagioni",
                             },
                             {
                                 "text": "Capricciosa",
-                                "callback_data": "pizza_capricciosa"
+                                "callback_data": "pizza_capricciosa",
                             },
                         ],
                         [
@@ -53,4 +54,3 @@ class MessageStart(Handler):
             ),
         )
         return HandlerStatus.STOP
-
