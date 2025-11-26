@@ -3,16 +3,16 @@ from bot.domain.storage import Storage
 from bot.handlers.handler import Handler, HandlerStatus
 
 
-class EnsureUserExists(Handler):
+class UpdateDatabaseLogger(Handler):
     def can_handle(
         self,
         update: dict,
         state: str,
         order_json: dict,
         storage: Storage,
-        messenger: Messenger,
+        messanger: Messenger,
     ) -> bool:
-        return "message" in update and "from" in update["message"]
+        return "update_id" in update
 
     def handle(
         self,
@@ -20,9 +20,7 @@ class EnsureUserExists(Handler):
         state: str,
         order_json: dict,
         storage: Storage,
-        messenger: Messenger,
+        messanger: Messenger,
     ) -> HandlerStatus:
-        telegram_id = update["message"]["from"]["id"]
-
-        storage.ensure_user_exists(telegram_id)
+        storage.persist_update(update)
         return HandlerStatus.CONTINUE
